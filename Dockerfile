@@ -1,0 +1,1 @@
+FROM laravelfans/laravel:latest
