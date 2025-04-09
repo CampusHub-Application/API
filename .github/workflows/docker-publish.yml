@@ -123,7 +123,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker-compose deployment
-        run: |
-          id
-          whoami
-          docker compose -f /campushub/docker-compose.yml up -d
+        run: docker compose -f /campushub/docker-compose.yml up -d
