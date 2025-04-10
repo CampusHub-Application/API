@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -33,6 +34,20 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected static function Boot()
+    {
+        parent::Boot();
+
+        static::creating(function ($model) {
+
+            do {
+                $randomId = Str::random(8);
+            } while (static::where('id', $randomId)->exists());
+            $model->id = $model->id ?? $randomId;
+
+        });
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -44,5 +59,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_id');
     }
 }
