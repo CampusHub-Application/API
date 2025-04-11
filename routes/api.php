@@ -8,22 +8,18 @@ use App\Http\Controllers\API\ProfileController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsNonAdmin;
 
-
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class,'logout'])->middleware('auth:sanctum');
 });
 
-Route::prefix('profile')->middleware(['auth:sanctum'])->group(function () {
-    Route::get('/', [ProfileController::class, 'profile']);
-    Route::patch('/', [ProfileController::class, 'update']);
-});
-
-Route::prefix('users')->middleware(['auth:sanctum', IsAdmin::class])->group(function () {
-    Route::get('/', [UserController::class, 'users']);
-    Route::post('/', [UserController::class, 'register']);
-    Route::patch('/', [UserController::class, 'update']);
-    Route::delete('/', [UserController::class, 'delete']);
+Route::prefix('users')->middleware(['auth:sanctum'])->group(function () {
+    Route::get('/', [UserController::class, 'users'])-> middleware(IsAdmin::class);
+    Route::get('/{id}', [UserController::class, 'user'])-> middleware(IsAdmin::class);
+    Route::post('/', [UserController::class, 'register'])-> middleware(IsAdmin::class);
+    Route::patch('/', [UserController::class, 'update'])-> middleware(IsAdmin::class);
+    Route::delete('/', [UserController::class, 'delete'])-> middleware(IsAdmin::class);
+    Route::get('/profile', [ProfileController::class, 'profile']);
 });
 
 Route::prefix('posts')->middleware(['auth:sanctum', IsNonAdmin::class])->group(function () {

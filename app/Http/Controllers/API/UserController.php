@@ -17,6 +17,33 @@ class UserController extends Controller
         $this->s3 = new S3Service();
     }
 
+    public function profile(Request $request)
+    {
+        return response([
+            'profile' => Auth::user()
+        ]);
+    }
+
+    public function users(Request $request)
+    {
+        return response([
+            'admin' => User::where('is_admin', true)->count(),
+            'non_admin' => User::where('is_admin', false)->count(),
+            'users' => User::all()
+        ]);
+    }
+
+    public function user(Request $request, $id)
+    {
+        $request->validate([
+            'id' => 'required|exists:users,id',
+        ]);
+
+        return response([
+            'user' => User::findOrFail($id)
+        ]);
+    }
+
     public function register(Request $request)
     {
         $request->validate([
@@ -51,15 +78,6 @@ class UserController extends Controller
             'message' => 'User created successfully',
         ]);
 
-    }
-
-    public function users(Request $request)
-    {
-        return response([
-            'admin' => User::where('is_admin', true)->count(),
-            'non_admin' => User::where('is_admin', false)->count(),
-            'users' => User::all()
-        ]);
     }
 
     public function update(Request $request)
@@ -109,5 +127,30 @@ class UserController extends Controller
         ]);
 
     }
-    
+
+    public function delete(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:users,id',
+        ]);
+
+        $user = User::findOrFail($request->id);
+        if ($user->photo) {
+            try {
+                $this->s3->deleteImg('users', $user->photo);
+            } catch (\Exception $error) {
+                return response([
+                    'message' => $error->getMessage()
+                ], 500);
+            }
+        }
+
+        $user->delete();
+
+        return response([
+            'message' => 'User deleted successfully',
+        ]);
+
+    }
+
 }
