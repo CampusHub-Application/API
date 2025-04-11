@@ -46,12 +46,5 @@ class AuthController extends Controller
         ]);
 
     }
-
-    public function profile(Request $request)
-    {
-        return response([
-            Auth::user()->makeHidden(['id', 'created_at', 'updated_at']),
-        ]);
-    }
-
+    
 }
