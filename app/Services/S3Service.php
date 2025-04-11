@@ -22,12 +22,20 @@ class S3Service
         ]);
     }
 
-    public function uploadImg($folder, $image)
+    public function uploadImg($folder, $image, $filename = null)
     {
+        $key = $folder . '/';
+
+        if ($filename) {
+            $key .= $filename;
+        } else {
+            $key .= pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME) . "-" . Str::random(16) . "." . $image->getClientOriginalExtension();
+        }
+        
         try {
             $result = $this->s3->putObject([
                 'Bucket' => env('AWS_BUCKET'),
-                'Key'    => $folder . '/' . pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME) . "-" . Str::random(16) . "." . $image->getClientOriginalExtension(),
+                'Key'    => $key,
                 'Body' => $image->get(),
                 'ContentType' => $image->getMimeType()
             ]);

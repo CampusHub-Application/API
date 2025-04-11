@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'photo'
     ];
 
     /**
@@ -33,20 +34,6 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
-    protected static function Boot()
-    {
-        parent::Boot();
-
-        static::creating(function ($model) {
-
-            do {
-                $randomId = Str::random(8);
-            } while (static::where('id', $randomId)->exists());
-            $model->id = $model->id ?? $randomId;
-
-        });
-    }
 
     /**
      * Get the attributes that should be cast.
@@ -61,7 +48,6 @@ class User extends Authenticatable
         ];
     }
 
-    
     public function posts()
     {
         return $this->hasMany(Post::class, 'user_id');
