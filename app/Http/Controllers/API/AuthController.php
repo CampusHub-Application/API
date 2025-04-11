@@ -6,9 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Services\S3Service;
 
 class AuthController extends Controller
 {
+    protected $s3;
+
+    public function __construct()
+    {
+        $this->s3 = new S3Service();
+    }
+
     public function register(Request $request)
     {
         $request->validate([
@@ -16,7 +24,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string',
             'password_confirmation' => 'required|same:password',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         User::create([
