@@ -21,9 +21,8 @@ class ProfileController extends Controller
     public function profile(Request $request)
     {
         return response([
-            Auth::user()->makeHidden(['created_at', 'updated_at']),
+            Auth::user()
         ]);
     }
-    
 
 }

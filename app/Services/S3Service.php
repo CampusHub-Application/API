@@ -29,7 +29,7 @@ class S3Service
         if ($filename) {
             $key .= $filename;
         } else {
-            $key .= pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME) . "-" . Str::random(16) . "." . $image->getClientOriginalExtension();
+            $key .= Str::random(64);
         }
         
         try {

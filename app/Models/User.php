@@ -24,13 +24,13 @@ class User extends Authenticatable
 
     protected $hidden = [
         'password',
-        'remember_token',
+        'created_at',
+        'updated_at',
     ];
 
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }

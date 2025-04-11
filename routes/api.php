@@ -22,8 +22,8 @@ Route::prefix('profile')->middleware(['auth:sanctum'])->group(function () {
 Route::prefix('users')->middleware(['auth:sanctum', IsAdmin::class])->group(function () {
     Route::get('/', [UserController::class, 'users']);
     Route::post('/', [UserController::class, 'register']);
-    Route::patch('/{id}', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'delete']);
+    Route::patch('/', [UserController::class, 'update']);
+    Route::delete('/', [UserController::class, 'delete']);
 });
 
 Route::prefix('posts')->middleware(['auth:sanctum', IsNonAdmin::class])->group(function () {

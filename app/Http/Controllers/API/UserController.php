@@ -58,25 +58,33 @@ class UserController extends Controller
         return response([
             'admin' => User::where('is_admin', true)->count(),
             'non_admin' => User::where('is_admin', false)->count(),
-            'users' => User::all()->makeHidden(['id', 'created_at', 'updated_at'])
+            'users' => User::all()
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $request->validate([
+            'id' => 'required|exists:users,id',
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,' . $request->id,
             'password' => 'nullable|string|min:8',
             'password_confirmation' => 'required_with:password|same:password',
             'photo' => 'nullable|image|max:16384',
         ]);        
 
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($request->id);
         if ($request->hasFile('photo')) {
 
             try {
-                $this->s3->uploadImg('users', $request->file('photo'), basename($user->photo));
+                $photo = $this->s3->uploadImg('users', $request->file('photo'), basename($user->photo));
+
+                if (!$user->photo) {
+                    $user->update([
+                        'photo' => $photo,
+                    ]);
+                }
+
             } catch (\Exception $error) {
                 return response([
                     'message' => $error->getMessage()
@@ -89,16 +97,17 @@ class UserController extends Controller
             $user->update([
                 'password' => bcrypt($request->password),
             ]);
-        } else {
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-            ]);
         }
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
 
         return response([
             'message' => 'User updated successfully',
         ]);
+
     }
     
 }
