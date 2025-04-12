@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
+            'id' => 'Wq8ZmLr7',
             'name' => 'Hasbi Mizan',
             'email' => 'hasbi@gmail.com',
             'password' => Hash::make('12345678'),
@@ -23,6 +24,7 @@ class UserSeeder extends Seeder
         ]);
     
         User::create([
+            'id' => 'NpB6xYd3',
             'name' => 'Issadurofiq',
             'email' => 'rofiq@gmail.com',
             'password' => Hash::make('12345678'),
@@ -30,6 +32,7 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
+            'id' => 'A3fB9cXz',
             'name' => 'Natha Satvika',
             'email' => 'natha@gmail.com',
             'password' => Hash::make('12345678'),
@@ -37,6 +40,7 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
+            'id' => 'kL7pW2Mn',
             'name' => 'Olfat Faiz',
             'email' => 'olfat@gmail.com',
             'password' => Hash::make('12345678'),
