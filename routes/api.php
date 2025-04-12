@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\PostController;
-use App\Http\Controllers\API\ProfileController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsNonAdmin;
 

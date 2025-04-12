@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\S3Service;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
 {
@@ -35,13 +36,15 @@ class UserController extends Controller
 
     public function user(Request $request, $id)
     {
-        $request->validate([
-            'id' => 'required|exists:users,id',
-        ]);
-
-        return response([
-            'user' => User::findOrFail($id)
-        ]);
+        try {
+            return response([
+                'user' => User::findOrFail($id)
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response([
+                'message' => 'User tidak ditemukan.'
+            ], 404);
+        }
     }
 
     public function register(Request $request)
@@ -85,7 +88,6 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'id' => 'required|exists:users,id',
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email,' . $request->id,
             'password' => 'nullable|string|min:8',
@@ -93,7 +95,14 @@ class UserController extends Controller
             'photo' => 'nullable|image|max:16384',
         ]);        
 
-        $user = User::findOrFail($request->id);
+        try {
+            $user = User::findOrFail($request->id);
+        } catch (ModelNotFoundException $e) {
+            return response([
+                'message' => 'User tidak ditemukan.'
+            ], 404);
+        }
+
         if ($request->hasFile('photo')) {
 
             try {
@@ -132,11 +141,15 @@ class UserController extends Controller
 
     public function delete(Request $request)
     {
-        $request->validate([
-            'id' => 'required|exists:users,id',
-        ]);
 
-        $user = User::findOrFail($request->id);
+        try {
+            $user = User::findOrFail($request->id);
+        } catch (ModelNotFoundException $e) {
+            return response([
+                'message' => 'User tidak ditemukan.'
+            ], 404);
+        }
+
         if ($user->photo) {
             try {
                 $this->s3->deleteImg('users', $user->photo);
