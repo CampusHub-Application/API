@@ -47,6 +47,7 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $request->validate([
+            'is_admin' => 'required|boolean',
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
@@ -68,6 +69,7 @@ class UserController extends Controller
         }
 
         User::create([
+            'is_admin' => $request->is_admin,
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
