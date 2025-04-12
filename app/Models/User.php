@@ -16,6 +16,7 @@ class User extends Authenticatable
     public $incrementing = false;
 
     protected $fillable = [
+        'is_admin',
         'name',
         'email',
         'password',
