@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\S3Service;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -27,24 +28,26 @@ class UserController extends Controller
 
     public function users(Request $request)
     {
-        return response([
-            'admin' => User::where('is_admin', true)->count(),
-            'non_admin' => User::where('is_admin', false)->count(),
-            'users' => User::all()
-        ]);
-    }
 
-    public function user(Request $request, $id)
-    {
-        try {
+        $id = $request->query('id');
+        if ($id) {
+            try {
+                return response([
+                    'user' => User::findOrFail($id)
+                ]);
+            } catch (ModelNotFoundException $e) {
+                return response([
+                    'message' => 'User tidak ditemukan.'
+                ], 404);
+            }
+        } else {
             return response([
-                'user' => User::findOrFail($id)
+                'admin' => User::where('is_admin', true)->count(),
+                'non_admin' => User::where('is_admin', false)->count(),
+                'users' => User::all()
             ]);
-        } catch (ModelNotFoundException $e) {
-            return response([
-                'message' => 'User tidak ditemukan.'
-            ], 404);
         }
+
     }
 
     public function register(Request $request)
