@@ -24,5 +24,5 @@ Route::prefix('users')->middleware(['auth:sanctum'])->group(function () {
 Route::prefix('posts')->middleware(['auth:sanctum', IsNonAdmin::class])->group(function () {
     Route::get('/', [PostController::class, 'posts']);
     Route::get('/{id}', [PostController::class, 'post']);
-    Route::post('/', [PostController::class, 'create']);
+    Route::post('/', [PostController::class, 'upload']);
 });
