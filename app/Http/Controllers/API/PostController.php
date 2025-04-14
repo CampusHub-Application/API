@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Services\S3Service;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PostController extends Controller
 {
@@ -48,7 +49,7 @@ class PostController extends Controller
 
         try {
             $photo = $this->s3->uploadImg('posts', $request->file('photo'));
-        } catch (\Exception $errpr) {
+        } catch (\Exception $error) {
             return response([
                 'message' => $error->getMessage()
             ], 500);

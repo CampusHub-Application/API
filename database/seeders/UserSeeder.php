@@ -18,7 +18,8 @@ class UserSeeder extends Seeder
             'id' => 'Wq8ZmLr7',
             'name' => 'Hasbi Mizan',
             'email' => 'hasbi@gmail.com',
-            'password' => Hash::make('12345678'),
+            'encrypted' => Hash::make('12345678'),
+            'password' => '12345678',
             'is_admin' => true,
         ]);
     
@@ -26,7 +27,8 @@ class UserSeeder extends Seeder
             'id' => 'NpB6xYd3',
             'name' => 'Issadurofiq',
             'email' => 'rofiq@gmail.com',
-            'password' => Hash::make('12345678'),
+            'encrypted' => Hash::make('12345678'),
+            'password' => '12345678',
             'is_admin' => true,
         ]);
 
@@ -34,7 +36,8 @@ class UserSeeder extends Seeder
             'id' => 'A3fB9cXz',
             'name' => 'Natha Satvika',
             'email' => 'natha@gmail.com',
-            'password' => Hash::make('12345678'),
+            'encrypted' => Hash::make('12345678'),
+            'password' => '12345678',
             'is_admin' => false,
         ]);
 
@@ -42,7 +45,8 @@ class UserSeeder extends Seeder
             'id' => 'kL7pW2Mn',
             'name' => 'Olfat Faiz',
             'email' => 'olfat@gmail.com',
-            'password' => Hash::make('12345678'),
+            'encrypted' => Hash::make('12345678'),
+            'password' => '12345678',
             'is_admin' => false,
         ]);
     }

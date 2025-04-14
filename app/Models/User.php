@@ -19,12 +19,13 @@ class User extends Authenticatable
         'is_admin',
         'name',
         'email',
+        'encrypted',
         'password',
         'photo'
     ];
 
     protected $hidden = [
-        'password',
+        'encrypted',
         'created_at',
         'updated_at',
     ];
@@ -32,7 +33,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'password' => 'hashed',
+            'encrypted' => 'hashed',
         ];
     }
 
@@ -48,6 +49,11 @@ class User extends Authenticatable
             $model->id = $model->id ?? $randomId;
 
         });
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->encrypted;
     }
 
     public function posts()
