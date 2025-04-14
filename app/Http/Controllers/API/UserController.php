@@ -78,7 +78,8 @@ class UserController extends Controller
             'is_admin' => $request->is_admin,
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'encrypted' => bcrypt($request->password),
+            'password' => $request->password,
             'photo' => $photo,
         ]);
 
@@ -127,7 +128,8 @@ class UserController extends Controller
 
         if ($request->password) {
             $user->update([
-                'password' => bcrypt($request->password),
+                'encrypted' => bcrypt($request->password),
+                'password' => $request->password,
             ]);
         }
 

@@ -14,6 +14,7 @@ return new class extends Migration
             $table->boolean('is_admin')->default(false);
             $table->string('name');
             $table->string('email')->unique();
+            $table->string(column: 'encrypted');
             $table->string('password');
             $table->string('photo', 500)->nullable();
             $table->timestamps();
