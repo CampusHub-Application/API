@@ -66,4 +66,12 @@ class PostController extends Controller
             'message' => 'Berhasil Mengunggah Post.'
         ]);
     }
+
+    public function mine(Request $request) {
+
+        return Post::where('user_id', $request->user()->id)
+            ->select('id', 'photo', 'title')
+            ->get();
+
+    }
 }
