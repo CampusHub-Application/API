@@ -20,14 +20,8 @@ class PostController extends Controller
 
     public function posts(Request $request)
     {
-        $responseQuery = Post::select('id', 'user_id', 'photo', 'title', 'description');
-
-        if($request && $request->has('id_filter')) {
-            $responseQuery->where('user_id', $request->input('id_filter'));
-        }
-
         return response([
-            'posts' => $responseQuery->get()
+            'posts' => Post::select('id', 'photo', 'title')->get()
         ]);
     }
 
