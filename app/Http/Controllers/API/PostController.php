@@ -74,4 +74,20 @@ class PostController extends Controller
             ->get();
 
     }
+
+    public function search(Request $request) {
+
+        $q = $request->query('q');
+
+        return response([
+            'posts' => Post::with('user:id,name,photo')
+            ->where('title', 'like', "%$q%")
+            ->orWhere('description', 'like', "%$q%")
+            ->orWhereHas('user', function($query) use ($q) {
+                $query->where('name', 'like', "%$q%");
+            })
+            ->select('id', 'title', 'description', 'photo', 'user_id')
+            ->get()->makeHidden('user_id')
+        ]);
+    }
 }

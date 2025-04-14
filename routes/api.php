@@ -28,3 +28,5 @@ Route::prefix('posts')->middleware(['auth:sanctum', IsNonAdmin::class])->group(f
 });
 
 Route::get('/my-posts', [PostController::class,'mine'])->middleware(['auth:sanctum', IsNonAdmin::class]);
+
+Route::get('/search', [PostController::class,'search'])->middleware('auth:sanctum');
