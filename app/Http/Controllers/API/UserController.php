@@ -62,8 +62,7 @@ class UserController extends Controller
         ]);
 
         $photo = null;
-        if ($request->hasFile('photo')) {
-
+        if ($request->hasFile('photo') && $request->file('photo') !== null) {
             try {
                 $photo = $this->s3->uploadImg('users', $request->file('photo'));
             } catch (\Exception $error) {
@@ -106,7 +105,7 @@ class UserController extends Controller
             ], 404);
         }
 
-        if ($request->hasFile('photo')) {
+        if ($request->hasFile('photo') && $request->file('photo') !== null) {
 
             try {
                 $photo = $this->s3->uploadImg('users', $request->file('photo'), basename($user->photo));
@@ -169,6 +168,56 @@ class UserController extends Controller
             'message' => 'User deleted successfully',
         ]);
 
+    }
+
+    // Below is GPT-generated lol
+    public function deleteMultiple(Request $request)
+    {
+        $ids = $request->input('ids');
+
+        if (!is_array($ids) || empty($ids)) {
+            return response([
+                'message' => 'No user IDs provided.'
+            ], 400);
+        }
+
+        $deletedCount = 0;
+        $errors = [];
+
+        foreach ($ids as $id) {
+            try {
+                $user = User::findOrFail($id);
+
+                if ($user->photo) {
+                    try {
+                        $this->s3->deleteImg('users', $user->photo);
+                    } catch (\Exception $e) {
+                        $errors[] = "Failed to delete photo for user ID {$id}: " . $e->getMessage();
+                        continue; // Skip user deletion if photo delete fails
+                    }
+                }
+
+                $user->delete();
+                $deletedCount++;
+
+            } catch (ModelNotFoundException $e) {
+                $errors[] = "User with ID {$id} not found.";
+            } catch (\Exception $e) {
+                $errors[] = "Failed to delete user ID {$id}: " . $e->getMessage();
+            }
+        }
+
+        if ($deletedCount === 0) {
+            return response([
+                'message' => 'No users were deleted.',
+                'errors' => $errors
+            ], 500);
+        }
+
+        return response([
+            'message' => "{$deletedCount} user(s) deleted successfully.",
+            'errors' => $errors
+        ]);
     }
 
 }

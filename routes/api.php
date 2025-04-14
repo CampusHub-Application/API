@@ -17,6 +17,7 @@ Route::prefix('users')->middleware(['auth:sanctum'])->group(function () {
     Route::post('/', [UserController::class, 'register'])-> middleware(IsAdmin::class);
     Route::patch('/', [UserController::class, 'update'])-> middleware(IsAdmin::class);
     Route::delete('/', [UserController::class, 'delete'])-> middleware(IsAdmin::class);
+    Route::delete('/multiple', [UserController::class, 'deleteMultiple'])-> middleware(IsAdmin::class);
     Route::get('/profile', [UserController::class, 'profile']);
 });
 
