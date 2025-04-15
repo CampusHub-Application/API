@@ -91,6 +91,7 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $request->validate([
+            'is_admin' => 'required|boolean',
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email,' . $request->id,
             'password' => 'nullable|string|min:8',
@@ -133,6 +134,7 @@ class UserController extends Controller
         }
 
         $user->update([
+            'is_admin' => $request->is_admin,
             'name' => $request->name,
             'email' => $request->email,
         ]);
