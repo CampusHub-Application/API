@@ -3,7 +3,10 @@ FROM laravelfans/laravel:11
 COPY . /var/www/laravel/
 WORKDIR /var/www/laravel/
 
-RUN sed -i '/memory_limit/c\memory_limit = 512M' /usr/local/etc/php/php.ini
+RUN sed -i '/memory_limit/c\memory_limit = 1024M' /usr/local/etc/php/php.ini
+RUN sed -i '/post_max_size/c\post_max_size = 17M' /usr/local/etc/php/php.ini
+RUN sed -i '/upload_max_filesize/c\upload_max_filesize = 17M' /usr/local/etc/php/php.ini
+
 RUN chown -R www-data:www-data /var/www/
 RUN chown -R www-data:www-data /tmp/
 
