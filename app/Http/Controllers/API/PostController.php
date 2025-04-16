@@ -71,7 +71,7 @@ class PostController extends Controller
 
         $id = $request->query('id');
         if ($id) {
-            return Post::where('user`_id', $id)
+            return Post::where('user_id', $id)
             ->select('id', 'photo', 'title')
             ->get();
         } else {
