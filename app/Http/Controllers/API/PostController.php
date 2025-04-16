@@ -69,9 +69,16 @@ class PostController extends Controller
 
     public function mine(Request $request) {
 
-        return Post::where('user_id', $request->user()->id)
+        $id = $request->query('id');
+        if ($id) {
+            return Post::where('user`_id', $id)
             ->select('id', 'photo', 'title')
             ->get();
+        } else {
+            return Post::where('user_id', $request->user()->id)
+            ->select('id', 'photo', 'title')
+            ->get();
+        }
 
     }
 
