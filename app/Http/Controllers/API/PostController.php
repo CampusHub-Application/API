@@ -29,7 +29,7 @@ class PostController extends Controller
     {
         try {
             return response([
-                'post' => Post::with(['user:id,name,email'])->findOrFail($id)->makeHidden(['user_id', 'created_at', 'updated_at'])
+                'post' => Post::with(['user:id,name,email,photo'])->findOrFail($id)->makeHidden(['user_id', 'created_at', 'updated_at'])
             ]);
         } catch (ModelNotFoundException $e) {
             return response([
