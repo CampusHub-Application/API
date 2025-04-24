@@ -27,7 +27,6 @@ class User extends Authenticatable
     protected $hidden = [
         'encrypted',
         'created_at',
-        'updated_at',
     ];
 
     protected function casts(): array

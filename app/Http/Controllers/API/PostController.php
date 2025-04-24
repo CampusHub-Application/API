@@ -37,7 +37,6 @@ class PostController extends Controller
             ], 404);
         }
     }
-    
 
     public function upload(Request $request)
     {
