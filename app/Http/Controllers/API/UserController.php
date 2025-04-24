@@ -116,6 +116,8 @@ class UserController extends Controller
                     $user->update([
                         'photo' => $photo,
                     ]);
+                } else {
+                    $user->touch(); // Force updated_at to change
                 }
 
             } catch (\Exception $error) {
