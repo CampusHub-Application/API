@@ -19,7 +19,7 @@ class PostSeeder extends Seeder
                 'user_id' => 'A3fB9cXz',
                 'title' => 'Foto Pemandangan',
                 'description' => 'Wow, pemandangan yang sangat indah',
-                'photo' => '/storage/posts/MwZ8xpGV1a3qJ9KTtFcXyRn5HgU7vCd4YzP2mNLj.jpg',
+                'photo' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -28,7 +28,7 @@ class PostSeeder extends Seeder
                 'user_id' => 'kL7pW2Mn',
                 'title' => 'Foto Bunga Sakura',
                 'description' => 'Bunga sakura cantik sekali',
-                'photo' => '/storage/posts/xA1PYglO03rEQHMcjLTwXBnhvC5tKdR8ipFyZaUS.jpg',
+                'photo' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'encrypted' => Hash::make('12345678'),
             'password' => '12345678',
             'is_admin' => true,
-            'photo' => '/storage/users/Wq8ZmLr7H5bP3kD9sT6vY2xR1jF7nL4mQ8aZ0cX.jpg',
+            'photo' => null,
         ]);
     
         User::create([
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             'encrypted' => Hash::make('12345678'),
             'password' => '12345678',
             'is_admin' => true,
-            'photo' => '/storage/users/NpB6xYd3G4tR8mK2jL9pQ7sZ5vX1cF3bH6nM0aD.jpg',
+            'photo' => null,
         ]);
 
         User::create([
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
             'encrypted' => Hash::make('12345678'),
             'password' => '12345678',
             'is_admin' => false,
-            'photo' => '/storage/users/A3fB9cXzR5tY7mP2sK8jL4dQ6vN1bH3gF0aZ7xC.jpg',
+            'photo' => null,
         ]);
 
         User::create([
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
             'encrypted' => Hash::make('12345678'),
             'password' => '12345678',
             'is_admin' => false,
-            'photo' => '/storage/users/kL7pW2MnB5sD9fR3tY6vX1jH8mQ4aZ0cF2gN7bP.jpg',
+            'photo' => null,
         ]);
     }
 }
