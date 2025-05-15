@@ -5,17 +5,17 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Services\S3Service;
+use App\Services\LocalStorageService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PostController extends Controller
 {
 
-    protected $s3;
+    protected $storage;
 
     public function __construct()
     {
-        $this->s3 = new S3Service();
+        $this->storage = new LocalStorageService();
     }
 
     public function posts(Request $request)
@@ -47,7 +47,7 @@ class PostController extends Controller
         ]);
 
         try {
-            $photo = $this->s3->uploadImg('posts', $request->file('photo'));
+            $photo = $this->storage->uploadImg('posts', $request->file('photo'));
         } catch (\Exception $error) {
             return response([
                 'message' => $error->getMessage()

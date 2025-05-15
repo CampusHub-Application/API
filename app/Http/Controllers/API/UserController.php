@@ -5,18 +5,18 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Services\S3Service;
+use App\Services\LocalStorageService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
 
-    protected $s3;
+    protected $storage;
 
     public function __construct()
     {
-        $this->s3 = new S3Service();
+        $this->storage = new LocalStorageService();
     }
 
     public function profile(Request $request)
@@ -64,7 +64,7 @@ class UserController extends Controller
         $photo = null;
         if ($request->hasFile('photo') && $request->file('photo') !== null) {
             try {
-                $photo = $this->s3->uploadImg('users', $request->file('photo'));
+                $photo = $this->storage->uploadImg('users', $request->file('photo'));
             } catch (\Exception $error) {
                 return response([
                     'message' => $error->getMessage()
@@ -110,7 +110,7 @@ class UserController extends Controller
         if ($request->hasFile('photo') && $request->file('photo') !== null) {
 
             try {
-                $photo = $this->s3->uploadImg('users', $request->file('photo'), basename($user->photo));
+                $photo = $this->storage->uploadImg('users', $request->file('photo'), basename($user->photo));
 
                 if (!$user->photo) {
                     $user->update([
@@ -158,7 +158,7 @@ class UserController extends Controller
 
         if ($user->photo) {
             try {
-                $this->s3->deleteImg('users', $user->photo);
+                $this->storage->deleteImg('users', $user->photo);
             } catch (\Exception $error) {
                 return response([
                     'message' => $error->getMessage()
@@ -194,7 +194,7 @@ class UserController extends Controller
 
                 if ($user->photo) {
                     try {
-                        $this->s3->deleteImg('users', $user->photo);
+                        $this->storage->deleteImg('users', $user->photo);
                     } catch (\Exception $e) {
                         $errors[] = "Failed to delete photo for user ID {$id}: " . $e->getMessage();
                         continue; // Skip user deletion if photo delete fails
